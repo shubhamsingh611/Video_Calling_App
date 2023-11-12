@@ -7,16 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.videocallapp.R
-import com.example.videocallapp.activity.HomeActivity
 import com.example.videocallapp.adapters.CallLogsAdapter
 import com.example.videocallapp.database.CallLogsDatabase
 import com.example.videocallapp.databinding.FragmentCallLogsBinding
-import com.example.videocallapp.databinding.FragmentVideoCallBinding
 import com.example.videocallapp.model.CallLogs
 import com.example.videocallapp.repository.CallLogsRepository
 import com.example.videocallapp.viewmodel.CallLogsFragmentViewModel
@@ -29,7 +26,6 @@ class CallLogsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,19 +56,16 @@ class CallLogsFragment : Fragment() {
         callLogsFragmentViewModel.getCallLogs().observe(viewLifecycleOwner, Observer {
             callLogsObject = it
         })
-
-
-
-        callLogsObject.add(CallLogs(1,"asfds","adfasdfasdf asdfsdaf","ewrwqer"))
-        callLogsObject.add(CallLogs(2,"asfds","asdfsdfsdasdfasdf asdfsdaf","sewasf"))
-        callLogsObject.add(CallLogs(3,"assdfsdffds","asdfsdfsddfasdf asdfsdaf","sadfsdaf"))
-        callLogsObject.add(CallLogs(4,"asfddsfs","asdsdfasdsdf asdfsdaf","sdfasfd"))
-        callLogsObject.add(CallLogs(6,"asfds","asdassddasdf asdfsdaf","sdfdsf"))
-        callLogsObject.add(CallLogs(7,"asfds","dfasdf asdfsdaf","sdfsadfa"))
+//testing
+//
+//        callLogsObject.add(CallLogs(1,"asfds","adfasdfasdf asdfsdaf","ewrwqer"))
+//        callLogsObject.add(CallLogs(2,"asfds","asdfsdfsdasdfasdf asdfsdaf","sewasf"))
+//        callLogsObject.add(CallLogs(3,"assdfsdffds","asdfsdfsddfasdf asdfsdaf","sadfsdaf"))
+//        callLogsObject.add(CallLogs(4,"asfddsfs","asdsdfasdsdf asdfsdaf","sdfasfd"))
+//        callLogsObject.add(CallLogs(6,"asfds","asdassddasdf asdfsdaf","sdfdsf"))
+//        callLogsObject.add(CallLogs(7,"asfds","dfasdf asdfsdaf","sdfsadfa"))
 
         callLogsList.adapter = CallLogsAdapter(callLogsObject)
         callLogsList.layoutManager = LinearLayoutManager(activity)
     }
-
-
 }

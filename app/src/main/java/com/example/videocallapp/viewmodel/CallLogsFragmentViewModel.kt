@@ -8,8 +8,6 @@ import com.example.videocallapp.repository.CallLogsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-// All data related to Views we maintain in view model
-//View Model talks with Repo and Repo talks with external source like DB or remote API
 class CallLogsFragmentViewModel(private val callLogsRepository: CallLogsRepository) : ViewModel() {
     fun getCallLogs() : LiveData<MutableList<CallLogs>> {
         return callLogsRepository.getCallLogs()

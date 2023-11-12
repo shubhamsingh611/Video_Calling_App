@@ -1,6 +1,5 @@
 package com.example.videocallapp.fragment
 
-import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,7 +12,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.videocallapp.R
-import com.example.videocallapp.databinding.ActivityHomeBinding
 import com.example.videocallapp.databinding.FragmentVideoCallBinding
 import io.agora.rtc2.ChannelMediaOptions
 import io.agora.rtc2.Constants
@@ -23,18 +21,19 @@ import io.agora.rtc2.RtcEngineConfig
 import io.agora.rtc2.video.VideoCanvas
 
 class VideoCallFragment : Fragment() {
-
-    private lateinit var binding : FragmentVideoCallBinding
-
+    /*
+    * TO-DO
+    * Define appID and appCertificate in build config
+    *
+    * */
+    private lateinit var binding: FragmentVideoCallBinding
     private val appId = "cec8d97106e04253a7c13a96355d0516"
-
     var appCertificate = ""
-
     var expirationTimeInSeconds = 3600
-    private val channelName = "shubhamdevelopsapp"
 
-    //private var token : String? = null
-    private val token = "007eJxTYLgkcFZhocJhDYeCwFj2IBOPoCN7Dd/JqrUmb6xPWe0s/k+BITk12SLF0tzQwCzVwMTI1DjRPNnQONHSzNjUNMXA1NDM6LdvakMgI8NdS3kGRigE8YUYijNKkzISc1NSy1Jz8guKEwsKGBgAMq4iKQ=="
+    private val channelName = "shubhamdevelopsapp"
+    private val token =
+        "007eJxTYLgkcFZhocJhDYeCwFj2IBOPoCN7Dd/JqrUmb6xPWe0s/k+BITk12SLF0tzQwCzVwMTI1DjRPNnQONHSzNjUNMXA1NDM6LdvakMgI8NdS3kGRigE8YUYijNKkzISc1NSy1Jz8guKEwsKGBgAMq4iKQ=="
     private val uid = 0
     private var isJoined = false
 
@@ -43,8 +42,6 @@ class VideoCallFragment : Fragment() {
     private var localSurfaceView: SurfaceView? = null
 
     private var remoteSurfaceView: SurfaceView? = null
-
-
 
     private val PERMISSION_REQ_ID = 2023;
     private val REQUESTED_PERMISSIONS =
@@ -64,9 +61,9 @@ class VideoCallFragment : Fragment() {
                 ) != PackageManager.PERMISSION_GRANTED)
     }
 
-    private fun showMessage(message: String){
-        activity?.runOnUiThread{
-            Toast.makeText(activity,message, Toast.LENGTH_SHORT).show()
+    private fun showMessage(message: String) {
+        activity?.runOnUiThread {
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -88,6 +85,7 @@ class VideoCallFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -106,7 +104,7 @@ class VideoCallFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.JoinButton.setOnClickListener{
+        binding.JoinButton.setOnClickListener {
             binding.localVideoViewContainer.visibility = View.VISIBLE
             binding.remoteVideoViewContainer.visibility = View.VISIBLE
             binding.buttonCallLogs.visibility = View.GONE
@@ -121,7 +119,11 @@ class VideoCallFragment : Fragment() {
         }
 
         if (!checkSelfPermission()) {
-            ActivityCompat.requestPermissions(requireActivity(), REQUESTED_PERMISSIONS, PERMISSION_REQ_ID);
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                REQUESTED_PERMISSIONS,
+                PERMISSION_REQ_ID
+            );
         }
         setupVideoSDKEngine();
 
@@ -133,7 +135,7 @@ class VideoCallFragment : Fragment() {
         agoraEngine!!.stopPreview()
         agoraEngine!!.leaveChannel()
 
-        Thread{
+        Thread {
             RtcEngine.destroy()
             agoraEngine = null
         }.start()
@@ -166,8 +168,8 @@ class VideoCallFragment : Fragment() {
         }
     }
 
-    private val mRtcEventHandler : IRtcEngineEventHandler =
-        object : IRtcEngineEventHandler(){
+    private val mRtcEventHandler: IRtcEngineEventHandler =
+        object : IRtcEngineEventHandler() {
 
             override fun onUserJoined(uid: Int, elapsed: Int) {
                 showMessage("Remote user joined $uid")

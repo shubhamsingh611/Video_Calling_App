@@ -8,10 +8,8 @@ import com.example.videocallapp.dao.CallLogsDao
 import com.example.videocallapp.model.CallLogs
 
 @Database(entities = [CallLogs::class], version = 1)
-
 abstract class CallLogsDatabase : RoomDatabase() {
     abstract fun callLogsDao(): CallLogsDao
-
     companion object {
         private var INSTANCE: CallLogsDatabase? = null
         fun getDatabase(context: Context): CallLogsDatabase {

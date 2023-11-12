@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.videocallapp.MainActivity
 import com.example.videocallapp.R
 import com.example.videocallapp.databinding.FragmentLoginBinding
 import com.google.firebase.FirebaseException
@@ -23,18 +22,16 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,
-            com.example.videocallapp.R.layout.fragment_login,container,false)
-        //val view : View = binding.root
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_login, container, false
+        )
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //Error ke liye band kiya hai
-        // binding = FragmentLoginBinding.bind(view)
-        //binding.tvLogin.setText("Hello")
+
         binding.buttonGetOtp.setOnClickListener {
             if (binding.editTextPhone.text.toString().trim().isNotEmpty()) {
                 if (binding.editTextPhone.text.toString().trim().length == 10) {
@@ -44,8 +41,8 @@ class LoginFragment : Fragment() {
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
                         "+91" + binding.editTextPhone.text.toString(),
                         60,
-                        TimeUnit.SECONDS,this.requireActivity(),
-                        object : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+                        TimeUnit.SECONDS, this.requireActivity(),
+                        object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                             override fun onVerificationCompleted(p0: PhoneAuthCredential) {
                                 binding.progressBar.visibility = View.GONE
                                 binding.buttonGetOtp.visibility = View.VISIBLE
@@ -54,11 +51,11 @@ class LoginFragment : Fragment() {
                             override fun onVerificationFailed(p0: FirebaseException) {
                                 binding.progressBar.visibility = View.GONE
                                 binding.buttonGetOtp.visibility = View.VISIBLE
-                                Toast.makeText(activity,p0.message,Toast.LENGTH_SHORT).show()
+                                Toast.makeText(activity, p0.message, Toast.LENGTH_SHORT).show()
                             }
 
                             override fun onCodeSent(
-                                backEndOtp : String,
+                                backEndOtp: String,
                                 p1: PhoneAuthProvider.ForceResendingToken
                             ) {
                                 binding.progressBar.visibility = View.GONE
@@ -66,18 +63,13 @@ class LoginFragment : Fragment() {
 
                                 val loginVerificationFragment = LoginVerificationFragment()
                                 val bundle = Bundle()
-                                Log.d("Back End OTP 1 " , backEndOtp + "new hai yaar - "+binding.editTextPhone.text.toString())
+                                Log.d(
+                                    "Back End OTP 1 ",
+                                    backEndOtp + "new hai yaar - " + binding.editTextPhone.text.toString()
+                                )
                                 bundle.putString("mobile", binding.editTextPhone.text.toString())
-                                bundle.putString("backendotp",backEndOtp)
+                                bundle.putString("backendotp", backEndOtp)
 
-
-//                                loginVerificationFragment.arguments = bundle
-//
-//                                fragmentManager?.beginTransaction()
-//                                    ?.add(R.id.container_main_activity,loginVerificationFragment)
-//                                    ?.commit()
-
-                                //loginVerificationFragment.arguments?.putBundle("mobile", bundle)
                                 loginVerificationFragment.arguments = bundle
                                 requireActivity()!!.supportFragmentManager.beginTransaction()
                                     .replace(

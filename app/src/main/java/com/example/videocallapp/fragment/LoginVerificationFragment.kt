@@ -1,30 +1,21 @@
 package com.example.videocallapp.fragment
 
 import android.content.Intent
-import android.media.MediaPlayer.OnCompletionListener
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
-import com.example.videocallapp.MainActivity
 import com.example.videocallapp.R
 import com.example.videocallapp.activity.HomeActivity
-import com.example.videocallapp.databinding.FragmentLoginBinding
 import com.example.videocallapp.databinding.FragmentLoginVerificationBinding
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import java.util.concurrent.TimeUnit
@@ -43,9 +34,6 @@ class LoginVerificationFragment : Fragment() {
             container,
             false
         )
-
-        //Log.d("Back End OTP" ,  "on Create new - "+arguments?.getString("mobile"))
-
         return binding.root
     }
 
@@ -54,11 +42,7 @@ class LoginVerificationFragment : Fragment() {
         val bundle = this.arguments
 
         val mobileNumber: String? = String.format("+91-%s", bundle?.getBundle("mobile")?.getString("mobile"))
-            //"+91"+bundle?.getBundle("mobile")?.getString("mobile")
         getOtpBackend = arguments?.getString("backendotp")
-
-        Log.d("Back End OTP " , getOtpBackend.toString()+ "new - "+arguments?.getString("mobile"))
-
         binding.verifyButton.setOnClickListener {
             if (binding.editTextNumber1.text.toString().trim().isNotEmpty() &&
                 binding.editTextNumber2.text.toString().trim().isNotEmpty() &&
@@ -78,9 +62,6 @@ class LoginVerificationFragment : Fragment() {
                 if (getOtpBackend != null) {
                     binding.verifyOtpProgressBar.visibility = View.VISIBLE
                     binding.verifyButton.visibility = View.INVISIBLE
-
-                    Log.d("Get OTP Backend ",getOtpBackend.toString())
-                    Log.d("Entered OTP ",enteredOtp)
 
                     val phoneAuthCredential = PhoneAuthProvider.getCredential(
                         getOtpBackend!!, enteredOtp
@@ -115,7 +96,6 @@ class LoginVerificationFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-//                Toast.makeText(activity,"OTP Verify",Toast.LENGTH_SHORT).show()
 
             } else {
                 Toast.makeText(activity, "Please Enter All Numbers", Toast.LENGTH_SHORT).show()
