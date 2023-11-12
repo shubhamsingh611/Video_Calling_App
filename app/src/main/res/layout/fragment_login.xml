@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loginFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.LoginFragment"
+        android:background="@color/themeBackground">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/ic_login"
+            android:elevation="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="User Login"
+            android:textColor="@color/primaryColour"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/tv_otp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textSize="12sp"
+            android:textColor="#797D7F"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="We will send you an one time OTP on this given number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_login" />
+
+        <TextView
+            android:id="@+id/tv_enter_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="16sp"
+            android:textColor="@color/primaryColour"
+            android:text="Enter Mobile Number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_otp_text" />
+
+        <EditText
+            android:id="@+id/editTextPhone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:elevation="5dp"
+            android:paddingStart="5dp"
+            android:drawableStart="@drawable/std_code"
+            android:hint="9999999999"
+            android:textColor="@color/black"
+            android:background="@drawable/et_number_style"
+            android:textAlignment="center"
+            android:maxLength="10"
+            android:ems="10"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_enter_number" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_get_otp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="GET OTP"
+            android:elevation="5dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/primaryColour"
+            android:background="@drawable/login_button_style"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_get_otp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

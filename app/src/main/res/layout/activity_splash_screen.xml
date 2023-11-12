@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_splash_screen_scene"
+    tools:context=".activity.SplashScreenActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_background"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/splash_screen_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/iv_black_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_splash_screen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_white_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_splash_screen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_video_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/video_call_app"
+        android:layout_marginTop="20dp"
+        android:textSize="25sp"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="@+id/cl_background"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="@+id/cl_background"
+        app:layout_constraintTop_toBottomOf="@+id/cl_background" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
