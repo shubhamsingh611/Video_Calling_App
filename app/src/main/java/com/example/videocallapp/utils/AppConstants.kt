@@ -1,6 +1,10 @@
 package com.example.videocallapp.utils
 
+import io.agora.rtc2.IRtcEngineEventHandler.PERMISSION
+
 object AppConstants {
+    const val USER_ID = 0
+    const val PERMISSION_REQ_ID = 2023
     const val NETWORK_ERROR = "Network Error!"
     const val NETWORK_ERROR_MSG = "Internet is not available. Turn on Internet and Try again."
     const val LOGS_DATABASE_NAME = "logsDB"

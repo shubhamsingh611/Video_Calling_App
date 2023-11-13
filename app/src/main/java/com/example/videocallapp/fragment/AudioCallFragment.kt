@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.videocallapp.BuildConfig
 import com.example.videocallapp.database.CallLogsDatabase
 import com.example.videocallapp.databinding.FragmentAudioCallBinding
 import com.example.videocallapp.model.CallLogs
@@ -35,14 +36,10 @@ class AudioCallFragment : Fragment() {
 
     private lateinit var binding: FragmentAudioCallBinding
     private lateinit var callLogsFragmentViewModel: CallLogsFragmentViewModel
-    private val appId = "cec8d97106e04253a7c13a96355d0516"
-    private val channelName = "shubhamdevelopsapp"
-    private val token =
-        "007eJxTYAg76W6hHbKTY/XZvg8f/2gKPK/eJ+42eb6EyMfaTecM1EUVGJJTky1SLM0NDcxSDUyMTI0TzZMNjRMtzYxNTVMMTA3N2twCUxsCGRl+dhYwMEIhiC/EUJxRmpSRmJuSWpaak19QnFhQwMAAAPxsJFY="
-    private val uid = 0
+    private val uid = AppConstants.USER_ID
     private var isJoined = false
     private var agoraEngine: RtcEngine? = null
-    private val PERMISSION_REQ_ID = 2023;
+    private val PERMISSION_REQ_ID = AppConstants.PERMISSION_REQ_ID;
 
     private val REQUESTED_PERMISSIONS = arrayOf(
         android.Manifest.permission.RECORD_AUDIO
@@ -73,7 +70,7 @@ class AudioCallFragment : Fragment() {
         try {
             val config = RtcEngineConfig()
             config.mContext = activity?.baseContext
-            config.mAppId = appId
+            config.mAppId = BuildConfig.APP_ID
             config.mEventHandler = mRtcEventHandler
             agoraEngine = RtcEngine.create(config)
             agoraEngine!!.enableAudio()
@@ -116,7 +113,7 @@ class AudioCallFragment : Fragment() {
         // Join the channel with a temp token.
         // You need to specify the user ID yourself, and ensure that it is unique in the channel.
         agoraEngine!!.startPreview()
-        agoraEngine!!.joinChannel(token, channelName, uid, options)
+        agoraEngine!!.joinChannel(BuildConfig.TOKEN, BuildConfig.CHANNEL_NAME, uid, options)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -145,26 +142,15 @@ class AudioCallFragment : Fragment() {
 
 
         binding.LeaveButton.setOnClickListener {
-            //Checking Internet connection
-            if (NetworkUtils.isInternetAvailable(requireActivity())) {
+            binding.infoText.text = AppConstants.START_AUDIO_CALL
                 if (isJoined) {
                     timer.cancel()
                     addUserRecordToLogs()
-                    binding.infoText.text = AppConstants.START_AUDIO_CALL
                     agoraEngine!!.leaveChannel()
                 } else {
                     Toast.makeText(activity, AppConstants.JOINED_CHANNEL_FIRST, Toast.LENGTH_SHORT)
                         .show()
                 }
-            } else {
-                //Showing Alert Dialog for no network
-                val alertDialog = AlertDialog.Builder(requireActivity())
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle(AppConstants.NETWORK_ERROR)
-                    .setMessage(AppConstants.NETWORK_ERROR_MSG)
-                    .show()
-            }
-
         }
 
         // If all the permissions are granted, initialize the RtcEngine object and join a channel.

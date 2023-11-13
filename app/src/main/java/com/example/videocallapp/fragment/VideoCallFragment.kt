@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.videocallapp.BuildConfig
 import com.example.videocallapp.R
 import com.example.videocallapp.database.CallLogsDatabase
 import com.example.videocallapp.databinding.FragmentVideoCallBinding
@@ -38,16 +39,12 @@ class VideoCallFragment : Fragment() {
 
     private lateinit var binding: FragmentVideoCallBinding
     private lateinit var callLogsFragmentViewModel: CallLogsFragmentViewModel
-    private val appId = "cec8d97106e04253a7c13a96355d0516"
-    private val channelName = "shubhamdevelopsapp"
-    private val token =
-        "007eJxTYAg76W6hHbKTY/XZvg8f/2gKPK/eJ+42eb6EyMfaTecM1EUVGJJTky1SLM0NDcxSDUyMTI0TzZMNjRMtzYxNTVMMTA3N2twCUxsCGRl+dhYwMEIhiC/EUJxRmpSRmJuSWpaak19QnFhQwMAAAPxsJFY="
-    private val uid = 0
+    private val uid = AppConstants.USER_ID
     private var isJoined = false
     private var agoraEngine: RtcEngine? = null
     private var localSurfaceView: SurfaceView? = null
     private var remoteSurfaceView: SurfaceView? = null
-    private val PERMISSION_REQ_ID = 2023;
+    private val PERMISSION_REQ_ID = AppConstants.PERMISSION_REQ_ID
     private val REQUESTED_PERMISSIONS =
         arrayOf(
             android.Manifest.permission.RECORD_AUDIO,
@@ -76,7 +73,7 @@ class VideoCallFragment : Fragment() {
         try {
             val config = RtcEngineConfig()
             config.mContext = activity?.baseContext
-            config.mAppId = appId
+            config.mAppId = BuildConfig.APP_ID
             config.mEventHandler = mRtcEventHandler
             agoraEngine = RtcEngine.create(config)
             // By default, the video module is disabled, call enableVideo to enable it.
@@ -174,7 +171,7 @@ class VideoCallFragment : Fragment() {
                 setupLocalVideo()
                 localSurfaceView!!.visibility = View.VISIBLE
                 agoraEngine!!.startPreview()
-                agoraEngine!!.joinChannel(token, channelName, uid, options)
+                agoraEngine!!.joinChannel(BuildConfig.TOKEN, BuildConfig.CHANNEL_NAME, uid, options)
             } else {
                 Toast.makeText(activity, AppConstants.PERMISSION_NOT_GRANTED_TEXT, Toast.LENGTH_SHORT)
                     .show()

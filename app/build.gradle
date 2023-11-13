@@ -16,23 +16,26 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        signingConfig signingConfigs.debug
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
-//            debuggable false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            buildConfigField "String", "APP_ID", "cec8d97106e04253a7c13a96355d0516"
+            buildConfigField "String", "APP_ID", "\"cec8d97106e04253a7c13a96355d0516\""
+            buildConfigField "String", "CHANNEL_NAME", "\"shubhamdevelopsapp\""
+            buildConfigField "String", "TOKEN", "\"007eJxTYIhaPddV9oTilmufBV2CQ1oijj28Zx337fHE7L/7Dn3rENJXYEhOTbZIsTQ3NDBLNTAxMjVONE82NE60NDM2NU0xMDU082EMSm0IZGRgyUxgYWSAQBBfiKE4ozQpIzE3JbUsNSe/oDixoICBAQB/uyT5\""
         }
-//        develop{
-//            minifyEnabled false
-//            debuggable true
-//            buildConfigField "String", "APP_ID", "cec8d97106e04253a7c13a96355d0516"
-//
-//        }
+        develop{
+            minifyEnabled false
+            debuggable true
+            buildConfigField "String", "APP_ID", "\"cec8d97106e04253a7c13a96355d0516\""
+            buildConfigField "String", "CHANNEL_NAME", "\"shubhamdevelopsapp\""
+            buildConfigField "String", "TOKEN", "\"007eJxTYIhaPddV9oTilmufBV2CQ1oijj28Zx337fHE7L/7Dn3rENJXYEhOTbZIsTQ3NDBLNTAxMjVONE82NE60NDM2NU0xMDU082EMSm0IZGRgyUxgYWSAQBBfiKE4ozQpIzE3JbUsNSe/oDixoICBAQB/uyT5\""
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
