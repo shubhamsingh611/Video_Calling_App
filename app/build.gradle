@@ -22,16 +22,17 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
+//            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "APP_ID", "cec8d97106e04253a7c13a96355d0516"
+//            buildConfigField "String", "APP_ID", "cec8d97106e04253a7c13a96355d0516"
         }
-        develop{
-            minifyEnabled true
-            debuggable true
-            buildConfigField "String", "APP_ID", "cec8d97106e04253a7c13a96355d0516"
-
-        }
+//        develop{
+//            minifyEnabled false
+//            debuggable true
+//            buildConfigField "String", "APP_ID", "cec8d97106e04253a7c13a96355d0516"
+//
+//        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

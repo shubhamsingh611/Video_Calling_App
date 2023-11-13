@@ -22,8 +22,8 @@ import com.example.videocallapp.viewmodel.CallLogsViewModelFactory
 
 
 class CallLogsFragment : Fragment() {
-    private lateinit var binding : FragmentCallLogsBinding
-    private lateinit var callLogsFragmentViewModel : CallLogsFragmentViewModel
+    private lateinit var binding: FragmentCallLogsBinding
+    private lateinit var callLogsFragmentViewModel: CallLogsFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,41 +40,28 @@ class CallLogsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var callLogsList : RecyclerView = binding.rvCallLogs
+        //Setting up recyclerview for Call Logs
+        var callLogsList: RecyclerView = binding.rvCallLogs
         val dividerItemDecoration = DividerItemDecoration(
             callLogsList.getContext(),
             LinearLayout.HORIZONTAL
         )
         callLogsList.addItemDecoration(dividerItemDecoration)
 
-        // val dao = activity?.let { CallLogsDatabase.getDatabase(it.applicationContext).callLogsDao() }
-        val dao =CallLogsDatabase.getDatabase(requireContext().applicationContext).callLogsDao()
+        //Fetching Repository Data
+        val dao = CallLogsDatabase.getDatabase(requireContext().applicationContext).callLogsDao()
         val repository = CallLogsRepository(dao)
 
+        //Initializing ViewModel
         callLogsFragmentViewModel =
             ViewModelProvider(
                 requireActivity(),
-                CallLogsViewModelFactory(repository!!)).get(CallLogsFragmentViewModel::class.java)
-
+                CallLogsViewModelFactory(repository!!)
+            ).get(CallLogsFragmentViewModel::class.java)
         callLogsFragmentViewModel.getCallLogs().observe(requireActivity(), Observer {
             //adapter
             callLogsList.adapter = CallLogsAdapter(it)
             callLogsList.layoutManager = LinearLayoutManager(activity)
         })
-
-
-
-
-
     }
 }
-
-
-//testing
-//
-//        callLogsObject.add(CallLogs(1,"asfds","adfasdfasdf asdfsdaf","ewrwqer"))
-//        callLogsObject.add(CallLogs(2,"asfds","asdfsdfsdasdfasdf asdfsdaf","sewasf"))
-//        callLogsObject.add(CallLogs(3,"assdfsdffds","asdfsdfsddfasdf asdfsdaf","sadfsdaf"))
-//        callLogsObject.add(CallLogs(4,"asfddsfs","asdsdfasdsdf asdfsdaf","sdfasfd"))
-//        callLogsObject.add(CallLogs(6,"asfds","asdassddasdf asdfsdaf","sdfdsf"))
-//        callLogsObject.add(CallLogs(7,"asfds","dfasdf asdfsdaf","sdfsadfa"))

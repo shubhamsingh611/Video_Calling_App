@@ -13,14 +13,14 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_80dp"
+            android:layout_marginEnd="@dimen/dimen_20dp"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:text="Welcome User on this Video Calling App!"
+            android:text="@string/welcome_user_on_this_video_calling_app"
             android:textColor="@color/primaryColour"
-            android:textSize="30sp"
+            android:textSize="@dimen/dimen_30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,9 +28,9 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="50dp"
+            android:layout_width="@dimen/dimen_200dp"
+            android:layout_height="@dimen/dimen_200dp"
+            android:layout_marginTop="@dimen/dimen_50dp"
             android:alpha="0.8"
             android:background="@drawable/video_calling_image"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
@@ -40,57 +40,56 @@
         <FrameLayout
             android:id="@+id/remote_video_view_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dimen_0dp"
+            app:layout_constraintVertical_weight="3"
             android:background="@color/ThemeBlack"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/local_video_view_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <FrameLayout
             android:id="@+id/local_video_view_container"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="30dp"
+            android:layout_width="@dimen/dimen_100dp"
+            android:layout_height="@dimen/dimen_0dp"
+            app:layout_constraintVertical_weight="1"
             android:background="@color/ThemeBlack"
-            android:elevation="10dp"
+            android:elevation="@dimen/dimen_10dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/remote_video_view_container"
-            app:layout_constraintEnd_toEndOf="@id/remote_video_view_container"
-            app:layout_constraintStart_toStartOf="@+id/remote_video_view_container"
-            app:layout_constraintTop_toTopOf="@id/remote_video_view_container" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/remote_video_view_container" />
 
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/JoinButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="70dp"
-            android:layout_marginBottom="30dp"
+            android:layout_width="@dimen/dimen_60dp"
+            android:layout_height="@dimen/dimen_60dp"
+            android:layout_marginStart="@dimen/dimen_70dp"
+            android:layout_marginBottom="@dimen/dimen_30dp"
             android:background="@drawable/call_connect_button_design"
             android:backgroundTint="@color/Green"
-            android:elevation="10dp"
+            android:elevation="@dimen/dimen_10dp"
             android:onClick="joinChannel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/LeaveButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="70dp"
-            android:layout_marginBottom="30dp"
+            android:layout_width="@dimen/dimen_60dp"
+            android:layout_height="@dimen/dimen_60dp"
+            android:layout_marginEnd="@dimen/dimen_70dp"
+            android:layout_marginBottom="@dimen/dimen_30dp"
             android:background="@drawable/call_connect_button_design"
             android:backgroundTint="@color/Red"
-            android:elevation="10dp"
+            android:elevation="@dimen/dimen_10dp"
             android:onClick="leaveChannel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

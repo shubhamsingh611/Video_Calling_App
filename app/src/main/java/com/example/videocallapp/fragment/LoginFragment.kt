@@ -2,7 +2,6 @@ package com.example.videocallapp.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.videocallapp.R
 import com.example.videocallapp.databinding.FragmentLoginBinding
+import com.example.videocallapp.utils.AppConstants
+import com.example.videocallapp.utils.AppConstants.ENTER_MOBILE_TEXT
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
@@ -39,8 +40,9 @@ class LoginFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.buttonGetOtp.visibility = View.INVISIBLE
 
+                    //OTP Authentication Process
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                        "+91" + binding.editTextPhone.text.toString(),
+                        AppConstants.INDIA_STD_CODE + binding.editTextPhone.text.toString(),
                         60,
                         TimeUnit.SECONDS, this.requireActivity(),
                         object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -64,40 +66,46 @@ class LoginFragment : Fragment() {
 
                                 val loginVerificationFragment = LoginVerificationFragment()
                                 val bundle = Bundle()
-                                Log.d(
-                                    "Back End OTP 1 ",
-                                    backEndOtp + "new hai yaar - " + binding.editTextPhone.text.toString()
+
+                                //Storing Mobile Number in Shared Preferences
+                                val preferences = requireActivity().getSharedPreferences(
+                                    AppConstants.SHARED_PREF_TAG,
+                                    Context.MODE_PRIVATE
                                 )
-
-                                val preferences = requireActivity().getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
                                 val editor = preferences.edit()
-                                editor.putString("user_mobile","+91-" + binding.editTextPhone.text.toString()).apply()
-
-                                bundle.putString("mobile", binding.editTextPhone.text.toString())
-                                bundle.putString("backendotp", backEndOtp)
+                                editor.putString(
+                                    AppConstants.USER_MOBILE_TEXT,
+                                    "+91-" + binding.editTextPhone.text.toString()
+                                ).apply()
+                                bundle.putString(
+                                    AppConstants.MOBILE_TEXT,
+                                    binding.editTextPhone.text.toString()
+                                )
+                                bundle.putString(AppConstants.OTP_BACKEND_TEXT, backEndOtp)
 
                                 loginVerificationFragment.arguments = bundle
                                 requireActivity()!!.supportFragmentManager.beginTransaction()
                                     .replace(
                                         R.id.container_main_activity,
                                         loginVerificationFragment,
-                                        "findThisFragment"
+                                        AppConstants.FRAGMENT_TAG
                                     )
                                     .addToBackStack(null)
                                     .commit()
                             }
-
                         }
                     )
-
                 } else {
-                    Toast.makeText(activity, "Please enter correct number!", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        activity,
+                        AppConstants.ENTER_CORRECT_NUMBER_TEXT,
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             } else {
-                Toast.makeText(activity, "Enter Mobile number!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, ENTER_MOBILE_TEXT, Toast.LENGTH_SHORT).show()
             }
         }
     }
-
 }

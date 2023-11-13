@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -32,12 +33,12 @@ import kotlin.random.Random
 
 class AudioCallFragment : Fragment() {
 
-    private lateinit var binding :FragmentAudioCallBinding
-    private lateinit var callLogsFragmentViewModel : CallLogsFragmentViewModel
-
+    private lateinit var binding: FragmentAudioCallBinding
+    private lateinit var callLogsFragmentViewModel: CallLogsFragmentViewModel
     private val appId = "cec8d97106e04253a7c13a96355d0516"
     private val channelName = "shubhamdevelopsapp"
-    private val token = "007eJxTYAg76W6hHbKTY/XZvg8f/2gKPK/eJ+42eb6EyMfaTecM1EUVGJJTky1SLM0NDcxSDUyMTI0TzZMNjRMtzYxNTVMMTA3N2twCUxsCGRl+dhYwMEIhiC/EUJxRmpSRmJuSWpaak19QnFhQwMAAAPxsJFY="
+    private val token =
+        "007eJxTYAg76W6hHbKTY/XZvg8f/2gKPK/eJ+42eb6EyMfaTecM1EUVGJJTky1SLM0NDcxSDUyMTI0TzZMNjRMtzYxNTVMMTA3N2twCUxsCGRl+dhYwMEIhiC/EUJxRmpSRmJuSWpaak19QnFhQwMAAAPxsJFY="
     private val uid = 0
     private var isJoined = false
     private var agoraEngine: RtcEngine? = null
@@ -47,6 +48,7 @@ class AudioCallFragment : Fragment() {
         android.Manifest.permission.RECORD_AUDIO
     )
 
+    //Checking for Permissions
     private fun checkSelfPermission(): Boolean {
         return if (ContextCompat.checkSelfPermission(
                 requireActivity(),
@@ -119,6 +121,8 @@ class AudioCallFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //Accessing Repository for adding call logs to database
         val dao = CallLogsDatabase.getDatabase(requireContext().applicationContext).callLogsDao()
         val repository = CallLogsRepository(dao)
 
@@ -132,52 +136,69 @@ class AudioCallFragment : Fragment() {
             if (!isJoined) {
                 timer.start()
                 binding.infoText.text = AppConstants.CALL_PROGRESS_TEXT
-                Toast.makeText(activity,AppConstants.JOINED_CHANNEL,Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, AppConstants.JOINED_CHANNEL, Toast.LENGTH_SHORT).show()
                 joinChannel()
             } else {
-                Toast.makeText(activity,AppConstants.ALREADY_JOINED,Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, AppConstants.ALREADY_JOINED, Toast.LENGTH_SHORT).show()
             }
         }
 
 
         binding.LeaveButton.setOnClickListener {
-            if (isJoined) {
-                timer.cancel()
-                addUserRecordToLogs()
-                binding.infoText.text = AppConstants.START_AUDIO_CALL
-                agoraEngine!!.leaveChannel()
+            //Checking Internet connection
+            if (NetworkUtils.isInternetAvailable(requireActivity())) {
+                if (isJoined) {
+                    timer.cancel()
+                    addUserRecordToLogs()
+                    binding.infoText.text = AppConstants.START_AUDIO_CALL
+                    agoraEngine!!.leaveChannel()
+                } else {
+                    Toast.makeText(activity, AppConstants.JOINED_CHANNEL_FIRST, Toast.LENGTH_SHORT)
+                        .show()
+                }
             } else {
-                Toast.makeText(activity,AppConstants.JOINED_CHANNEL_FIRST,Toast.LENGTH_SHORT).show()
+                //Showing Alert Dialog for no network
+                val alertDialog = AlertDialog.Builder(requireActivity())
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(AppConstants.NETWORK_ERROR)
+                    .setMessage(AppConstants.NETWORK_ERROR_MSG)
+                    .show()
             }
 
         }
 
         // If all the permissions are granted, initialize the RtcEngine object and join a channel.
         if (!checkSelfPermission()) {
-            ActivityCompat.requestPermissions(requireActivity(),
-                arrayOf(REQUESTED_PERMISSIONS[0]), PERMISSION_REQ_ID)
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(REQUESTED_PERMISSIONS[0]), PERMISSION_REQ_ID
+            )
         }
         setupVoiceSDKEngine();
     }
 
     //Timer Implementation
     var timerCounter = 0
-    val timer = object: CountDownTimer(200000, 1000) {
-        override fun onTick(millisUntilFinished: Long) {timerCounter++}
+    val timer = object : CountDownTimer(200000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            timerCounter++
+        }
+
         override fun onFinish() {}
     }
 
     private fun addUserRecordToLogs() {
-        val preferences = this.requireActivity().getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
-        val mobile = preferences.getString("user_mobile",null)
+        val preferences = this.requireActivity()
+            .getSharedPreferences(AppConstants.SHARED_PREF_TAG, Context.MODE_PRIVATE)
+        val mobile = preferences.getString(AppConstants.USER_MOBILE_TEXT, null)
         val sdf = SimpleDateFormat("'Date :'dd-MM-yyyy',\nTime :'HH:mm:ss z")
         val currentDateAndTime = sdf.format(Date())
         val r = Random(System.currentTimeMillis())
         val id = 10000 + r.nextInt(20000)
-        val callDuration = "${timerCounter/60} min ${timerCounter%60} sec"
+        val callDuration = "${timerCounter / 60} min ${timerCounter % 60} sec"
 
         //creating user object and adding to Database
-        val callLogs = CallLogs(id,mobile.toString(), currentDateAndTime,callDuration)
+        val callLogs = CallLogs(id, mobile.toString(), currentDateAndTime, callDuration)
         callLogsFragmentViewModel.insertCallLogs(callLogs)
     }
 
@@ -193,23 +214,25 @@ class AudioCallFragment : Fragment() {
                 ).show()
             }
         }
+
         override fun onJoinChannelSuccess(channel: String, uid: Int, elapsed: Int) {
             // Successfully joined a channel
             isJoined = true
             showMessage("Joined Channel $channel")
-            Toast.makeText(activity,AppConstants.JOINED_CHANNEL,Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, AppConstants.JOINED_CHANNEL, Toast.LENGTH_SHORT).show()
             activity?.runOnUiThread { }
         }
+
         override fun onUserOffline(uid: Int, reason: Int) {
             // Listen for remote users leaving the channel
             showMessage("Remote user offline $uid $reason")
-            Toast.makeText(activity,AppConstants.OFFLINE_MSG,Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, AppConstants.OFFLINE_MSG, Toast.LENGTH_SHORT).show()
             if (isJoined) activity?.runOnUiThread { }
         }
 
         override fun onLeaveChannel(stats: RtcStats) {
             // Listen for the local user leaving the channel
-            Toast.makeText(activity,AppConstants.CHANNEL_LEFT,Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, AppConstants.CHANNEL_LEFT, Toast.LENGTH_SHORT).show()
             activity?.runOnUiThread { }
             isJoined = false
         }

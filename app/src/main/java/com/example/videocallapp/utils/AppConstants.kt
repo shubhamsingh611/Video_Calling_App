@@ -11,6 +11,22 @@ object AppConstants {
     const val JOINED_CHANNEL_FIRST = "Please Join Channel First"
     const val OFFLINE_MSG = "You are offline"
     const val CHANNEL_LEFT = "Channel Left"
+    const val INDIA_STD_CODE = "+91"
+    const val FRAGMENT_TAG = "findThisFragment"
+    const val SHARED_PREF_TAG = "sharedPref";
+    const val USER_MOBILE_TEXT = "user_mobile"
+    const val OTP_BACKEND_TEXT = "backendotp"
+    const val MOBILE_TEXT = "mobile"
+    const val ENTER_CORRECT_NUMBER_TEXT = "Please enter correct number!"
+    const val ENTER_MOBILE_TEXT = "Enter Mobile number!"
+    const val AUTHENTICATION_SUCCESSFUL = "Authentication Successful!"
+    const val ENTER_CORRECT_OTP_TEXT = "Enter the Correct OTP"
+    const val INTERNET_CONNECTION_TEXT = "Please Check your Internet Connection"
+    const val PLEASE_ENTER_ALL_NUMBER = "Please Enter All Numbers"
+    const val OTP_SUCCESS_TEXT = "OTP Sent Successfully"
+    const val JOIN_CHANNEL_TEXT = "Join a channel first"
+    const val YOU_LEFT_CHANNEL_TEXT = "You left the channel"
+    const val PERMISSION_NOT_GRANTED_TEXT = "Permissions was not granted"
 
 }
 

@@ -9,7 +9,6 @@ import com.example.videocallapp.fragment.LoginFragment
 import com.example.videocallapp.utils.AppConstants
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,17 +23,5 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.container_main_activity, loginFragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
-
-        //Checking Internet connection
-        if (NetworkUtils.isInternetAvailable(this)) {
-            //Api Calling
-        } else {
-            //Showing Alert Dialog for no network
-            val alertDialog = AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(AppConstants.NETWORK_ERROR)
-                .setMessage(AppConstants.NETWORK_ERROR_MSG)
-                .show()
-        }
     }
 }

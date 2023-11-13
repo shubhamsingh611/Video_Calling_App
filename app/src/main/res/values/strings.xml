@@ -3,4 +3,20 @@
     <string name="video_call_app">Video Call App</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="time_stamp">Time Stamp</string>
+    <string name="call_duration">Call Duration</string>
+    <string name="start_an_audio_call">Start an Audio Call!</string>
+    <string name="call_logs">Call Logs</string>
+    <string name="black_activity">Black Activity</string>
+    <string name="user_login">User Login</string>
+    <string name="we_will_send_you_an_one_time_otp_on_this_given_number">We will send you an one time OTP on this given number</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="mobile_number_hint">9999999999</string>
+    <string name="get_otp">GET OTP</string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="please_enter_the_otp_sent_to_you">Please enter the OTP sent to you</string>
+    <string name="resend_otp_again">RESEND OTP AGAIN</string>
+    <string name="submit">Submit</string>
+    <string name="welcome_user_on_this_video_calling_app">Welcome User on this Video Calling App!</string>
 </resources>
