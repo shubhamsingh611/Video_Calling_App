@@ -9,7 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CallLogsFragmentViewModel(private val callLogsRepository: CallLogsRepository) : ViewModel() {
-    fun getCallLogs() : LiveData<MutableList<CallLogs>> {
+    //Live Data for observing change in Call Logs
+    fun getCallLogs() : LiveData<List<CallLogs>> {
         return callLogsRepository.getCallLogs()
     }
     fun insertCallLogs(callLogs: CallLogs){

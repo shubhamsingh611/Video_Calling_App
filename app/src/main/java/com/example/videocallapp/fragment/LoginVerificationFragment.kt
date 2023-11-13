@@ -1,16 +1,19 @@
 package com.example.videocallapp.fragment
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.example.videocallapp.R
 import com.example.videocallapp.activity.HomeActivity
 import com.example.videocallapp.databinding.FragmentLoginVerificationBinding
@@ -73,6 +76,7 @@ class LoginVerificationFragment : Fragment() {
                             binding.verifyOtpProgressBar.visibility = View.GONE
                             binding.verifyButton.visibility = View.VISIBLE
                             if (task.isSuccessful) {
+
                                 Toast.makeText(
                                     activity,
                                     "Authentication Successful",

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.videocallapp.R
 import com.example.videocallapp.model.CallLogs
 
-class CallLogsAdapter(val callLogs : List<CallLogs>): RecyclerView.Adapter<CallLogsAdapter.MyViewHolder>() {
+class CallLogsAdapter(private val callLogs : List<CallLogs>): RecyclerView.Adapter<CallLogsAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,8 +28,8 @@ class CallLogsAdapter(val callLogs : List<CallLogs>): RecyclerView.Adapter<CallL
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var txtPhoneNumber = itemView.findViewById<TextView>(R.id.phone_number)
-        var txtCallDuration = itemView.findViewById<TextView>(R.id.call_duration)
-        var txtTimeStamp = itemView.findViewById<TextView>(R.id.time_stamp)
+        var txtPhoneNumber: TextView = itemView.findViewById<TextView>(R.id.phone_number)
+        var txtCallDuration: TextView = itemView.findViewById<TextView>(R.id.call_duration)
+        var txtTimeStamp: TextView = itemView.findViewById<TextView>(R.id.time_stamp)
     }
 }

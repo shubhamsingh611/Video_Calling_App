@@ -1,10 +1,12 @@
 package com.example.videocallapp
 
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.example.videocallapp.databinding.ActivityMainBinding
 import com.example.videocallapp.fragment.LoginFragment
+import com.example.videocallapp.utils.AppConstants
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,13 +15,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
 
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val fragment = LoginFragment()
+        val loginFragment = LoginFragment()
 
-        fragmentTransaction.replace(R.id.container_main_activity, fragment)
-        fragmentTransaction.addToBackStack(null) // Optional, if you want to add this transaction to the back stack
+        fragmentTransaction.replace(R.id.container_main_activity, loginFragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
 
         //Checking Internet connection
@@ -29,8 +32,8 @@ class MainActivity : AppCompatActivity() {
             //Showing Alert Dialog for no network
             val alertDialog = AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Network Error!")
-                .setMessage("Internet is not available. Turn on Internet and Try again.")
+                .setTitle(AppConstants.NETWORK_ERROR)
+                .setMessage(AppConstants.NETWORK_ERROR_MSG)
                 .show()
         }
     }

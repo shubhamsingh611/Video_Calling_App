@@ -9,8 +9,10 @@ import com.example.videocallapp.model.CallLogs;
 
 @Dao
 interface CallLogsDao {
-    @Query("SELECT * from callLogs")
-    fun getCallLogs() :LiveData<MutableList<CallLogs>>
+    @Query("SELECT * from call_logs")
+    fun getCallLogs() : LiveData<List<CallLogs>>
+
+    //Adding Records to Table
     @Insert
     fun insertCallLogs(callLogs: CallLogs)
 }

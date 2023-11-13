@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.AudioCallFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".fragment.AudioCallFragment">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/infoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start an Audio Call!"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/primaryColour"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/joinButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/call_connect_button_design"
+            android:backgroundTint="@color/Green"
+            android:elevation="10dp"
+            android:onClick="joinChannel"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/LeaveButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/LeaveButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/call_connect_button_design"
+            android:backgroundTint="@color/Red"
+            android:elevation="10dp"
+            android:layout_marginBottom="25dp"
+            android:onClick="leaveChannel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/joinButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

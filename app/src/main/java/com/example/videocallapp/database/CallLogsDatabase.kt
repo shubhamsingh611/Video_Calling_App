@@ -6,11 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.videocallapp.dao.CallLogsDao
 import com.example.videocallapp.model.CallLogs
+import com.example.videocallapp.utils.AppConstants
 
 @Database(entities = [CallLogs::class], version = 1)
 abstract class CallLogsDatabase : RoomDatabase() {
     abstract fun callLogsDao(): CallLogsDao
     companion object {
+        @Volatile
         private var INSTANCE: CallLogsDatabase? = null
         fun getDatabase(context: Context): CallLogsDatabase {
             if (INSTANCE == null) {
@@ -18,9 +20,8 @@ abstract class CallLogsDatabase : RoomDatabase() {
                     INSTANCE = Room.databaseBuilder(
                         context,
                         CallLogsDatabase::class.java,
-                        "call_logs_database"
+                        AppConstants.LOGS_DATABASE_NAME
                     )
-                        .createFromAsset("call_logs.db")
                         .build()
                 }
             }

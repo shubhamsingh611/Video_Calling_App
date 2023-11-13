@@ -1,5 +1,6 @@
 package com.example.videocallapp.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -67,6 +68,11 @@ class LoginFragment : Fragment() {
                                     "Back End OTP 1 ",
                                     backEndOtp + "new hai yaar - " + binding.editTextPhone.text.toString()
                                 )
+
+                                val preferences = requireActivity().getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+                                val editor = preferences.edit()
+                                editor.putString("user_mobile","+91-" + binding.editTextPhone.text.toString()).apply()
+
                                 bundle.putString("mobile", binding.editTextPhone.text.toString())
                                 bundle.putString("backendotp", backEndOtp)
 

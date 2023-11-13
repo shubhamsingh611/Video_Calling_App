@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +30,7 @@
             android:id="@+id/imageView2"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:alpha="0.8"
             android:background="@drawable/video_calling_image"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
@@ -56,56 +57,39 @@
             android:layout_height="150dp"
             android:layout_marginBottom="30dp"
             android:background="@color/ThemeBlack"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/LeaveButton"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/JoinButton"
-            android:visibility="gone"/>
+            android:elevation="10dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/remote_video_view_container"
+            app:layout_constraintEnd_toEndOf="@id/remote_video_view_container"
+            app:layout_constraintStart_toStartOf="@+id/remote_video_view_container"
+            app:layout_constraintTop_toTopOf="@id/remote_video_view_container" />
 
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/JoinButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/call_connect_button_design"
             android:backgroundTint="@color/Green"
             android:elevation="10dp"
             android:onClick="joinChannel"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/local_video_view_container"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_call_logs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="80dp"
-            android:alpha="0.8"
-            android:background="@drawable/login_button_style"
-            android:text="Call Logs"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/imageView2"
-            app:layout_constraintStart_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            android:visibility="visible"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/LeaveButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/call_connect_button_design"
             android:backgroundTint="@color/Red"
             android:elevation="10dp"
             android:onClick="leaveChannel"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/local_video_view_container" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
