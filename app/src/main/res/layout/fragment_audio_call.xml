@@ -12,14 +12,26 @@
             android:id="@+id/infoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_200dp"
             android:text="@string/start_an_audio_call"
+            android:textColor="@color/primaryColour"
             android:textSize="@dimen/dimen_25sp"
             android:textStyle="bold"
-            android:textColor="@color/primaryColour"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="@dimen/dimen_15sp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/infoText"
+            app:layout_constraintStart_toStartOf="@+id/infoText"
+            app:layout_constraintTop_toBottomOf="@+id/infoText"
+            android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/joinButton"

@@ -138,8 +138,8 @@ class VideoCallFragment : Fragment() {
     }
 
     //Close resources to Avoid Memory Leaks
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         agoraEngine!!.stopPreview()
         agoraEngine!!.leaveChannel()
         Thread {

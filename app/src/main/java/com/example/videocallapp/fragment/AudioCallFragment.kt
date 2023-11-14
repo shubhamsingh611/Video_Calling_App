@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -47,13 +46,10 @@ class AudioCallFragment : Fragment() {
 
     //Checking for Permissions
     private fun checkSelfPermission(): Boolean {
-        return if (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                REQUESTED_PERMISSIONS[0]
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            false
-        } else true
+        return ContextCompat.checkSelfPermission(
+            requireActivity(),
+            REQUESTED_PERMISSIONS[0]
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     fun showMessage(message: String?) {
@@ -73,9 +69,46 @@ class AudioCallFragment : Fragment() {
             config.mAppId = BuildConfig.APP_ID
             config.mEventHandler = mRtcEventHandler
             agoraEngine = RtcEngine.create(config)
-            agoraEngine!!.enableAudio()
+            //agoraEngine!!.enableAudio()
         } catch (e: Exception) {
             throw RuntimeException("Check the error.")
+        }
+    }
+
+    //Handing Response
+    private val mRtcEventHandler: IRtcEngineEventHandler = object : IRtcEngineEventHandler() {
+        // Listen for the remote user joining the channel.
+        override fun onUserJoined(uid: Int, elapsed: Int) {
+
+            activity?.runOnUiThread {
+                Toast.makeText(
+                    activity,
+                    "Remote user joined: $uid",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        override fun onJoinChannelSuccess(channel: String, uid: Int, elapsed: Int) {
+            // Successfully joined a channel
+            isJoined = true
+            showMessage("Joined Channel $channel")
+            activity?.runOnUiThread {Toast.makeText(activity, AppConstants.JOINED_CHANNEL, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        override fun onUserOffline(uid: Int, reason: Int) {
+            // Listen for remote users leaving the channel
+            showMessage("Remote user offline $uid $reason")
+            if (isJoined) activity?.runOnUiThread {Toast.makeText(activity, AppConstants.OFFLINE_MSG, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        override fun onLeaveChannel(stats: RtcStats) {
+            // Listen for the local user leaving the channel
+            activity?.runOnUiThread {Toast.makeText(activity, AppConstants.CHANNEL_LEFT, Toast.LENGTH_SHORT).show()
+            }
+            isJoined = false
         }
     }
 
@@ -92,9 +125,8 @@ class AudioCallFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        agoraEngine!!.stopPreview()
+    override fun onStop() {
+        super.onStop()
         agoraEngine!!.leaveChannel()
 
         Thread {
@@ -112,7 +144,6 @@ class AudioCallFragment : Fragment() {
         options.channelProfile = Constants.CHANNEL_PROFILE_LIVE_BROADCASTING
         // Join the channel with a temp token.
         // You need to specify the user ID yourself, and ensure that it is unique in the channel.
-        agoraEngine!!.startPreview()
         agoraEngine!!.joinChannel(BuildConfig.TOKEN, BuildConfig.CHANNEL_NAME, uid, options)
     }
 
@@ -126,14 +157,13 @@ class AudioCallFragment : Fragment() {
         callLogsFragmentViewModel =
             ViewModelProvider(
                 requireActivity(),
-                CallLogsViewModelFactory(repository!!)
+                CallLogsViewModelFactory(repository)
             ).get(CallLogsFragmentViewModel::class.java)
 
         binding.joinButton.setOnClickListener {
             if (!isJoined) {
                 timer.start()
                 binding.infoText.text = AppConstants.CALL_PROGRESS_TEXT
-                Toast.makeText(activity, AppConstants.JOINED_CHANNEL, Toast.LENGTH_SHORT).show()
                 joinChannel()
             } else {
                 Toast.makeText(activity, AppConstants.ALREADY_JOINED, Toast.LENGTH_SHORT).show()
@@ -142,25 +172,26 @@ class AudioCallFragment : Fragment() {
 
 
         binding.LeaveButton.setOnClickListener {
-            binding.infoText.text = AppConstants.START_AUDIO_CALL
+            binding.infoText.text = AppConstants.START_AUDIO_CALL;
                 if (isJoined) {
+                    binding.tvTimer.visibility = View.GONE
                     timer.cancel()
-                    addUserRecordToLogs()
                     agoraEngine!!.leaveChannel()
                 } else {
                     Toast.makeText(activity, AppConstants.JOINED_CHANNEL_FIRST, Toast.LENGTH_SHORT)
                         .show()
                 }
+            addUserRecordToLogs()
         }
 
         // If all the permissions are granted, initialize the RtcEngine object and join a channel.
         if (!checkSelfPermission()) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(REQUESTED_PERMISSIONS[0]), PERMISSION_REQ_ID
+                REQUESTED_PERMISSIONS, PERMISSION_REQ_ID
             )
         }
-        setupVoiceSDKEngine();
+        setupVoiceSDKEngine()
     }
 
     //Timer Implementation
@@ -168,8 +199,12 @@ class AudioCallFragment : Fragment() {
     val timer = object : CountDownTimer(200000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             timerCounter++
+            binding.tvTimer.text = StringBuilder()
+                .append(timerCounter).
+                append(" ").
+                append(AppConstants.SEC_TEXT)
+            binding.tvTimer.visibility = View.VISIBLE
         }
-
         override fun onFinish() {}
     }
 
@@ -188,39 +223,4 @@ class AudioCallFragment : Fragment() {
         callLogsFragmentViewModel.insertCallLogs(callLogs)
     }
 
-    //Handing Response
-    private val mRtcEventHandler: IRtcEngineEventHandler = object : IRtcEngineEventHandler() {
-        // Listen for the remote user joining the channel.
-        override fun onUserJoined(uid: Int, elapsed: Int) {
-            activity?.runOnUiThread {
-                Toast.makeText(
-                    activity,
-                    "Remote user joined: $uid",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        override fun onJoinChannelSuccess(channel: String, uid: Int, elapsed: Int) {
-            // Successfully joined a channel
-            isJoined = true
-            showMessage("Joined Channel $channel")
-            Toast.makeText(activity, AppConstants.JOINED_CHANNEL, Toast.LENGTH_SHORT).show()
-            activity?.runOnUiThread { }
-        }
-
-        override fun onUserOffline(uid: Int, reason: Int) {
-            // Listen for remote users leaving the channel
-            showMessage("Remote user offline $uid $reason")
-            Toast.makeText(activity, AppConstants.OFFLINE_MSG, Toast.LENGTH_SHORT).show()
-            if (isJoined) activity?.runOnUiThread { }
-        }
-
-        override fun onLeaveChannel(stats: RtcStats) {
-            // Listen for the local user leaving the channel
-            Toast.makeText(activity, AppConstants.CHANNEL_LEFT, Toast.LENGTH_SHORT).show()
-            activity?.runOnUiThread { }
-            isJoined = false
-        }
-    }
 }

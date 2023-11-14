@@ -43,8 +43,8 @@ class CallLogsFragment : Fragment() {
         //Setting up recyclerview for Call Logs
         var callLogsList: RecyclerView = binding.rvCallLogs
         val dividerItemDecoration = DividerItemDecoration(
-            callLogsList.getContext(),
-            LinearLayout.HORIZONTAL
+            context,
+            LinearLayoutManager.VERTICAL
         )
         callLogsList.addItemDecoration(dividerItemDecoration)
 

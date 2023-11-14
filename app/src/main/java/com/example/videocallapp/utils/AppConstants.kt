@@ -31,6 +31,7 @@ object AppConstants {
     const val JOIN_CHANNEL_TEXT = "Join a channel first"
     const val YOU_LEFT_CHANNEL_TEXT = "You left the channel"
     const val PERMISSION_NOT_GRANTED_TEXT = "Permissions was not granted"
+    const val SEC_TEXT = "Sec"
 
 }
 
