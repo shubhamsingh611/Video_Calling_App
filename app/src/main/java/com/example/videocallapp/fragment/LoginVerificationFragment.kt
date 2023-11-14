@@ -1,5 +1,6 @@
 package com.example.videocallapp.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -44,10 +45,9 @@ class LoginVerificationFragment : Fragment() {
         val bundle = this.arguments
 
         //Retrieving the phone number entered in Login Page
-        val mobileNumber: String? = String.format(
-            "+91-%s",
-            bundle?.getBundle(AppConstants.MOBILE_TEXT)?.getString(AppConstants.MOBILE_TEXT)
-        )
+        val preferences = this.requireActivity()
+            .getSharedPreferences(AppConstants.SHARED_PREF_TAG, Context.MODE_PRIVATE)
+        val mobileNumber = preferences.getString(AppConstants.USER_MOBILE_TEXT, null)
         getOtpBackend = arguments?.getString(AppConstants.OTP_BACKEND_TEXT)
 
         binding.verifyButton.setOnClickListener {
@@ -115,7 +115,7 @@ class LoginVerificationFragment : Fragment() {
         binding.tvResendOtp.setOnClickListener {
             //Resend OTP Login Implementation
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+91$mobileNumber", 60, TimeUnit.SECONDS, this.requireActivity(),
+                mobileNumber.toString(), 60, TimeUnit.SECONDS, this.requireActivity(),
                 object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     override fun onVerificationCompleted(p0: PhoneAuthCredential) {
                     }

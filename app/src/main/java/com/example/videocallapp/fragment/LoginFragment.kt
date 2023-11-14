@@ -75,7 +75,7 @@ class LoginFragment : Fragment() {
                                 val editor = preferences.edit()
                                 editor.putString(
                                     AppConstants.USER_MOBILE_TEXT,
-                                    "+91-" + binding.editTextPhone.text.toString()
+                                    "+91" + binding.editTextPhone.text.toString()
                                 ).apply()
                                 bundle.putString(
                                     AppConstants.MOBILE_TEXT,
